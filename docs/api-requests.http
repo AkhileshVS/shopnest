@@ -1,0 +1,49 @@
+### Signup
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{"name": "Akhilesh", "email": "akhil@example.com", "password": "secret123", "phone": "9999999999"}
+
+### Login as admin
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{"email": "admin@shopnest.com", "password": "admin123"}
+
+### Create category (admin)
+POST http://localhost:8080/categories
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{"name": "Electronics", "description": "Phones, laptops and accessories"}
+
+### Create product (admin)
+POST http://localhost:8080/products
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{"name": "Wireless Mouse", "description": "2.4GHz mouse", "price": 799.00, "stock": 50, "categoryId": 1}
+
+### List products
+GET http://localhost:8080/products?page=0&size=10&sortBy=price&direction=asc
+
+### Search
+GET http://localhost:8080/products/search?query=mouse
+
+### Add to cart
+POST http://localhost:8080/cart/items
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"productId": 1, "quantity": 2}
+
+### Checkout
+POST http://localhost:8080/orders/checkout
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"shippingAddress": "Flat 12, Madhapur, Hyderabad 500081", "gateway": "RAZORPAY"}
+
+### My orders
+GET http://localhost:8080/orders
+Authorization: Bearer {{token}}

@@ -1,0 +1,56 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: shopnest
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/shopnest?createDatabaseIfNotExist=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVERS:localhost:9092}
+    consumer:
+      group-id: shopnest-notifications
+      auto-offset-reset: earliest
+
+app:
+  admin:
+    email: ${ADMIN_EMAIL:admin@shopnest.com}
+    password: ${ADMIN_PASSWORD:admin123}
+  jwt:
+    secret: ${JWT_SECRET:c2hvcG5lc3Qtc2VjcmV0LWtleS1jaGFuZ2UtdGhpcy1pbi1wcm9kdWN0aW9uLTEyMzQ1Ng==}
+    expiration-ms: 86400000
+  cache:
+    product-ttl-minutes: 10
+  kafka:
+    order-topic: order-events
+  payment:
+    default-gateway: ${PAYMENT_GATEWAY:razorpay}
+    callback-url: ${PAYMENT_CALLBACK_URL:http://localhost:8080/payments/callback}
+    razorpay:
+      key-id: ${RAZORPAY_KEY_ID:rzp_test_key}
+      key-secret: ${RAZORPAY_KEY_SECRET:rzp_test_secret}
+      webhook-secret: ${RAZORPAY_WEBHOOK_SECRET:webhook_secret}
+    stripe:
+      api-key: ${STRIPE_API_KEY:sk_test_key}
+      webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_test}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
